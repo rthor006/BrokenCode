@@ -1,0 +1,44 @@
+//please assume the 60 seperate codes follow and similar format and structure to this with small tweaks and varying changes throughout
+
+int frames=60, num=200;
+float theta;
+long rs;
+
+
+void setup() {
+  size(540, 540);
+
+  rs = (long) random(2222222);
+}
+ 
+void draw() {
+  randomSeed(rs);
+  background(10);
+  float r=0;
+  noStroke();
+ 
+  for (int i=0; i<=num; i++) {
+    float offset=TWO_PI*num/i;
+    pushMatrix();
+    translate(width/2, height/2);
+    rotate(r);
+    float x = 0;
+    float d =  map(cos(theta-offset*6), -1, 1, -10, 100);
+    for (int j=0; j<100; j++) {
+      if (random(1)>.1){
+      x = random(0, 190);
+      } 
+      if (x<190) {
+        fill(255);
+      } else {
+       noFill();
+      }
+      ellipse(x/d, -20, 1, 1);
+    }
+    r+=TWO_PI/150;
+    popMatrix();
+  }
+
+  theta+=0.4;
+  saveFrame("line-######.jpg");
+}
