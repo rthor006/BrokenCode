@@ -1,3 +1,5 @@
+//this code was taken from openprocessing with a open source creative commons liscence and used as a basis to begin my cells
+
 int num=15, rot=24;
 float r, theta;
  
