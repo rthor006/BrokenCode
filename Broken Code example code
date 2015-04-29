@@ -1,44 +1,68 @@
 //please assume the 60 seperate codes follow and similar format and structure to this with small tweaks and varying changes throughout
 
-int frames=60, num=200;
+//setting basic variables 
+int frames=60; 
+int num=200;
 float theta;
-long rs;
+long rs; //a variable for holding a long interger
 
 
 void setup() {
   size(540, 540);
 
-  rs = (long) random(2222222);
+  rs = (long) random(2222222);//giving this long interger a random value up to that specified
 }
- 
+
 void draw() {
-  randomSeed(rs);
-  background(10);
+  randomSeed(rs);//ensures the random values produced from 'rs' are the same everytime the programme is run
+  background(10);//grey/black background
   float r=0;
   noStroke();
- 
+  //iterating through each number(200)
   for (int i=0; i<=num; i++) {
-    float offset=TWO_PI*num/i;
+    //setting a float to values of pi
+    float offset=TWO_PI;
+    //functions specifically within this push/pop environment
     pushMatrix();
+    //centre screen
     translate(width/2, height/2);
+    //rotating the shape around the screen
     rotate(r);
     float x = 0;
-    float d =  map(cos(theta-offset*6), -1, 1, -10, 100);
+    //establishing a proportion between two range of values and only using values clamped within this range, 
+    //in this case which are within the range of 1/-1 of the cos function, setting to a width from the centre(0,0...centre of screen) to a radius of 100
+    //this is then used when drawing the x coordinate of the ellipse
+    float d =  map(cos(theta-offset/offset), -1, 1, 1, 100);
     for (int j=0; j<100; j++) {
-      if (random(1)>.1){
-      x = random(0, 190);
+      //using specific parameters of values if only the random value of the range of one is greater than 0.4 
+      if (random(1.0)>.4) {
+        //setting x to a random value within this range
+        x = random(0, 180);
       } 
-      if (x<190) {
-        fill(255);
+      //if x<100 do not fill/show (these are the values which begin within the confines of the circle and 
+      //then explode out as their calculations exceeds the parameters of the ellipse
+      if (x<100) {
+        noFill();
       } else {
-       noFill();
+        //as long as the x value stays below 140,(within confines of the circle) colour it white 
+        if (x<140) {
+          fill(255);
+          //any other values which fall out of the range, do not show
+        } else {
+          noFill();
+        }
       }
-      ellipse(x/d, -20, 1, 1);
+      //draw the ellipse according to the cos calculation of map(range)/x(a random value between 0-180),
+      //with a centre radius of 60(the inner circle- empty black space), with a thickness of one and a length of 100 
+        ellipse(d/x, 60, 1, 10);
+      }
+      //increment r every loop through draw by this calculation
+      r+=TWO_PI/100;
+      //end of shape specific calculations
+      popMatrix();
     }
-    r+=TWO_PI/150;
-    popMatrix();
+    //theta increments by .2 every loop through code, this gives it the subtle look of rotation, increase this to make it spin more abruptly
+    theta+=0.2;
+    //save everyframe in order to document every drawing, these can then be used for showing progress of code
+    saveFrame("line-######.jpg");
   }
-
-  theta+=0.4;
-  saveFrame("line-######.jpg");
-}
